@@ -6,6 +6,7 @@ on:
     branches: [main]
     paths:
       - presentation/build_deck.js
+      - presentation/add_result_slides.py
       - .github/workflows/presentation.yml
 
 permissions:
@@ -21,10 +22,17 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Install deck generator
-        run: npm install --no-save pptxgenjs
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install deck generators
+        run: |
+          npm install --no-save pptxgenjs
+          python -m pip install python-pptx
       - name: Build PowerPoint
-        run: node presentation/build_deck.js
+        run: |
+          node presentation/build_deck.js
+          python presentation/add_result_slides.py
       - name: Install LibreOffice for PDF export
         run: |
           sudo apt-get update -qq
