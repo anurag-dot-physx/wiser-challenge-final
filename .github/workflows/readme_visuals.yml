@@ -4,8 +4,8 @@ on:
   push:
     branches: [main]
     paths:
-      - results/figures/**
-      - .github/workflows/readme_visuals.yml
+      - "results/figures/**"
+      - ".github/workflows/readme_visuals.yml"
 
 permissions:
   contents: write
