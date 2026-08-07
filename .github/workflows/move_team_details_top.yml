@@ -1,0 +1,35 @@
+name: Move team details to README top
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/move_team_details_top.py"
+      - ".github/workflows/move_team_details_top.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Move team details to top
+        run: python scripts/move_team_details_top.py
+      - name: Commit README
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          if git diff --cached --quiet; then
+            echo "README team details already current."
+          else
+            git commit -m "Move QPhysicists team details to README top"
+            git push origin HEAD:main
+          fi
