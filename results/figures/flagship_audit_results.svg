@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560">
+<rect width="1200" height="560" fill="#f7f7f8"/>
+<text x="50" y="55" font-family="Arial" font-size="30" font-weight="700" fill="#202126">Flagship audit: exact validation and turnover control</text>
+<text x="50" y="88" font-family="Arial" font-size="16" fill="#6B6B72">All three profiles remain hard-feasible; rebalancing sensitivity materially reduces turnover.</text>
+
+<text x="60" y="145" font-family="Arial" font-size="20" font-weight="700" fill="#202126">QP → exact-grid objective gap</text>
+<line x1="80" y1="400" x2="600" y2="400" stroke="#cfcfd5" stroke-width="2"/>
+<line x1="80" y1="190" x2="80" y2="400" stroke="#cfcfd5" stroke-width="2"/>
+<rect x="130" y="277" width="90" height="123" rx="6" fill="#315A8A"/>
+<rect x="290" y="299" width="90" height="101" rx="6" fill="#7B1E35"/>
+<rect x="450" y="189" width="90" height="211" rx="6" fill="#5B2A86"/>
+<text x="175" y="270" text-anchor="middle" font-family="Arial" font-size="16" font-weight="700" fill="#315A8A">8.18e−4</text>
+<text x="335" y="292" text-anchor="middle" font-family="Arial" font-size="16" font-weight="700" fill="#7B1E35">6.69e−4</text>
+<text x="495" y="182" text-anchor="middle" font-family="Arial" font-size="16" font-weight="700" fill="#5B2A86">1.41e−3</text>
+<text x="175" y="430" text-anchor="middle" font-family="Arial" font-size="16" fill="#202126">Growth</text>
+<text x="335" y="430" text-anchor="middle" font-family="Arial" font-size="16" fill="#202126">Balanced</text>
+<text x="495" y="430" text-anchor="middle" font-family="Arial" font-size="16" fill="#202126">Defensive</text>
+<text x="340" y="475" text-anchor="middle" font-family="Arial" font-size="15" fill="#6B6B72">Small positive gaps are expected from discretizing a convex relaxation.</text>
+
+<text x="690" y="145" font-family="Arial" font-size="20" font-weight="700" fill="#202126">One-way turnover</text>
+<line x1="710" y1="400" x2="1135" y2="400" stroke="#cfcfd5" stroke-width="2"/>
+<rect x="770" y="205" width="120" height="195" rx="6" fill="#7B1E35"/>
+<rect x="955" y="327" width="120" height="73" rx="6" fill="#2B7A4B"/>
+<text x="830" y="193" text-anchor="middle" font-family="Arial" font-size="28" font-weight="700" fill="#7B1E35">40%</text>
+<text x="1015" y="315" text-anchor="middle" font-family="Arial" font-size="28" font-weight="700" fill="#2B7A4B">15%</text>
+<text x="830" y="430" text-anchor="middle" font-family="Arial" font-size="16" fill="#202126">λT = 0</text>
+<text x="1015" y="430" text-anchor="middle" font-family="Arial" font-size="16" fill="#202126">λT = 2</text>
+<text x="920" y="475" text-anchor="middle" font-family="Arial" font-size="17" font-weight="700" fill="#2B7A4B">62.5% reduction in one-way turnover</text>
+
+<rect x="60" y="500" width="1075" height="40" rx="10" fill="#eef6f1" stroke="#b7d7c4"/>
+<text x="597" y="526" text-anchor="middle" font-family="Arial" font-size="17" font-weight="700" fill="#2B7A4B">Verified result: 19,448-state audit + zero canonical hard-constraint breaches</text>
+</svg>
