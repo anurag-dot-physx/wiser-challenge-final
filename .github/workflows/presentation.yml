@@ -1,3 +1,4 @@
+# Rebuild when presentation source changes; final author names are in build_deck.js.
 name: Build presentation deck
 
 on:
