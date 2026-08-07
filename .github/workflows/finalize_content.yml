@@ -1,0 +1,81 @@
+name: Finalize README math and presentation authors
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/finalize_content.yml
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Restore LaTeX equations and add presentation authors
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          readme = Path('README.md')
+          text = readme.read_text(encoding='utf-8')
+          replacements = {
+          "> **J(w) = −λμ μᵀw + λr wᵀΣw − λy yᵀw + λT (w − w₀)ᵀR(w − w₀) + λs (1/S) Σₛ(ℓₛᵀw)²**": r'''$$
+          J(w)=
+          -\lambda_\mu\mu^T w
+          +\lambda_r w^T\Sigma w
+          -\lambda_y y^T w
+          +\lambda_T(w-w_0)^T R(w-w_0)
+          +\lambda_s\frac{1}{S}\sum_s(\ell_s^T w)^2.
+          $$''',
+          "> **C(17, 7) = 19,448**": r'''$$
+          \binom{17}{7}=19{,}448
+          $$''',
+          "> **E(x, s) = J(Ax) + P Σₖ(cₖᵀx + dₖᵀsₖ − tₖ)²**": r'''$$
+          E(x,s)=J(Ax)+P\sum_k\left(c_k^T x+d_k^T s_k-t_k\right)^2.
+          $$''',
+          "> **E(m) = −λμ μᵀm + λΣ mᵀΣm − λS Σᵢⱼₖ Sᵢⱼₖ mᵢmⱼmₖ + λK Σᵢⱼₖₗ Kᵢⱼₖₗ mᵢmⱼmₖmₗ + λB(Σᵢmᵢ − 8)²**": r'''$$
+          E(m)=
+          -\lambda_\mu\mu^T m
+          +\lambda_\Sigma m^T\Sigma m
+          -\lambda_S\sum_{ijk}S_{ijk}m_i m_j m_k
+          +\lambda_K\sum_{ijkl}K_{ijkl}m_i m_j m_k m_l
+          +\lambda_B\left(\sum_i m_i-8\right)^2.
+          $$''',
+          "**G***": r"$G^\star$",
+          "For each identity **y = ab**, the Rosenberg penalty is": r"For each identity $y=ab$, the Rosenberg penalty is",
+          "> **P(ab − 2ay − 2by + 3y)**": r'''$$
+          P\left(ab-2ay-2by+3y\right).
+          $$''',
+          "**P** is selected strictly above a rigorous range bound": r"$P$ is selected strictly above a rigorous range bound",
+          "> **H_HUBO(x) = H_QUBO(x, y(x))**": r'''$$
+          H_{\mathrm{HUBO}}(x)=H_{\mathrm{QUBO}}\left(x,y(x)\right).
+          $$''',
+          }
+          for old, new in replacements.items():
+              if old not in text:
+                  print(f'WARNING: README pattern not found: {old[:80]}')
+              text = text.replace(old, new)
+          readme.write_text(text, encoding='utf-8')
+
+          deck = Path('presentation/build_deck.js')
+          js = deck.read_text(encoding='utf-8')
+          js = js.replace("p.author='WISER Vanguard Quantum Portfolio Challenge';", "p.author='Anurag Sarkar; Ankit Gill';")
+          old = "s.addText('Audited classical optimization + exact QUBO/QAOA benchmark + higher-moment HUBO/VQE research extension',{x:4.76,y:2.82,w:7.3,h:.8,fontSize:17,color:C.mut,margin:0});"
+          new = "s.addText('Anurag Sarkar  |  Ankit Gill',{x:4.76,y:2.66,w:7.3,h:.3,fontSize:14,bold:true,color:C.burg,margin:0});s.addText('Audited classical optimization + exact QUBO/QAOA benchmark + higher-moment HUBO/VQE research extension',{x:4.76,y:3.05,w:7.3,h:.75,fontSize:16.5,color:C.mut,margin:0});"
+          if old not in js:
+              raise SystemExit('Title-slide subtitle pattern not found in build_deck.js')
+          js = js.replace(old, new)
+          deck.write_text(js, encoding='utf-8')
+          PY
+      - name: Commit final content
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md presentation/build_deck.js
+          git commit -m "Restore LaTeX README equations and add presentation authors" || exit 0
+          git push origin HEAD:main
