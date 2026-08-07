@@ -1,0 +1,38 @@
+name: Portfolio co-pilot tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -e .
+      - name: Compile
+        run: python -m compileall -q src tests
+      - name: Test
+        run: pytest -q
+      - name: Fresh-checkout smoke test
+        run: |
+          python src/audit_quadratic_model.py --output /tmp/quadratic_model_audit.json
+          python src/run_vanguard_copilot.py --profile Balanced --output /tmp/vanguard_copilot_report.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          audit = json.loads(Path('/tmp/quadratic_model_audit.json').read_text())
+          report = json.loads(Path('/tmp/vanguard_copilot_report.json').read_text())
+          assert audit['all_checks_passed'] is True
+          assert report['production_model']['discrete_exact']['metrics']['feasible'] is True
+          assert len(report['production_model']['discrete_exact']['metrics']['hard_breaches']) == 0
+          PY

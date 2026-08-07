@@ -1,0 +1,39 @@
+{
+  "status": "PASSED",
+  "description": "Canonical verified summary from the final flagship quadratic-model audit. Regenerate the full machine-readable audit with python src/audit_quadratic_model.py.",
+  "profiles": {
+    "Growth": {
+      "maximum_objective_form_error": 5.551e-17,
+      "minimum_hessian_eigenvalue": 0.01010,
+      "continuous_to_discrete_gap": 0.00081799,
+      "grid_states": 19448,
+      "reduced_qubo_variables": 13,
+      "reduced_unique_feasible_portfolios": 108,
+      "hard_constraint_audit": "PASS"
+    },
+    "Balanced": {
+      "maximum_objective_form_error": 6.939e-17,
+      "minimum_hessian_eigenvalue": 0.02185,
+      "continuous_to_discrete_gap": 0.00066947,
+      "grid_states": 19448,
+      "reduced_qubo_variables": 15,
+      "reduced_unique_feasible_portfolios": 66,
+      "hard_constraint_audit": "PASS"
+    },
+    "Defensive": {
+      "maximum_objective_form_error": 4.857e-17,
+      "minimum_hessian_eigenvalue": 0.03365,
+      "continuous_to_discrete_gap": 0.00140581,
+      "grid_states": 19448,
+      "reduced_qubo_variables": 11,
+      "reduced_unique_feasible_portfolios": 2,
+      "hard_constraint_audit": "PASS"
+    }
+  },
+  "turnover_sensitivity": {
+    "one_way_turnover_at_weight_0": 0.40,
+    "one_way_turnover_at_weight_2": 0.15,
+    "material": true
+  },
+  "claim_boundary": "Audit pass establishes implementation correctness for the stated synthetic/anonymized model, not economic validity or quantum advantage."
+}

@@ -1,0 +1,26 @@
+"""Detailed comparison records for higher-moment HUBO dashboard models."""
+from __future__ import annotations
+from typing import Any, Dict, Mapping, MutableMapping
+import numpy as np
+from .higher_moment_extension import HigherMomentConfig, SourceMomentData, source_bitstring, state_table
+from .source_hubo_models import SourceHuboConfig, source_hubo_state_table
+
+def _original_record(table,index):
+    units=np.asarray(table["units"][index],int); return {"state_index":int(index),"bitstring":source_bitstring(units),"units":[int(x) for x in units],"weights":[float(x) for x in table["weights"][index]],"unit_total":int(table["total_units"][index]),"fully_invested":bool(table["feasible"][index]),"budget_breach":0.0 if bool(table["feasible"][index]) else float(abs(table["total_units"][index]-8)),"expected_return":float(table["expected_return"][index]),"variance":float(table["variance"][index]),"volatility":float(table["volatility"][index]),"sharpe_ratio":float(table["sharpe_ratio"][index]),"normalized_skewness":float(table["normalized_skewness"][index]),"normalized_kurtosis":float(table["normalized_kurtosis"][index]),"mean_variance_energy":float(table["mean_variance_energy"][index]),"higher_moment_energy":float(table["tail_aware_energy"][index]),"hamiltonian_energy":float(table["hubo_energy"][index])}
+def original_comparison_records(data,config=None):
+    cfg=HigherMomentConfig() if config is None else config; table=state_table(data,cfg); feasible=np.flatnonzero(table["feasible"]); mv=int(feasible[np.argmin(table["mean_variance_energy"][feasible])]); hm=int(feasible[np.argmin(table["tail_aware_energy"][feasible])]); financial=int(feasible[np.argmax(table["sharpe_ratio"][feasible])]); unrestricted=int(np.argmin(table["hubo_energy"])); return {"financial_ground_truth":_original_record(table,financial),"exact_mean_variance":_original_record(table,mv),"exact_higher_moment":_original_record(table,hm),"unrestricted_hamiltonian_ground":_original_record(table,unrestricted)}
+def normalize_full_tensor_record(record):
+    normalized=dict(record)
+    if "hamiltonian_energy" not in normalized:
+        if "total_energy" not in normalized:raise KeyError("Full-tensor record has neither 'hamiltonian_energy' nor 'total_energy'.")
+        normalized["hamiltonian_energy"]=float(normalized["total_energy"])
+    if "fully_invested" not in normalized:normalized["fully_invested"]=bool(normalized.get("minimum_breach_state",False))
+    normalized.setdefault("budget_breach",0.0); return normalized
+def _full_tensor_record(table,index):
+    units=np.asarray(table["units"][index],int); return normalize_full_tensor_record({"state_index":int(index),"bitstring":source_bitstring(units),"units":[int(x) for x in units],"weights":[float(x) for x in table["weights"][index]],"unit_total":int(table["unit_totals"][index]),"fully_invested":bool(table["admissible"][index]),"budget_breach":float(table["budget_breach"][index]),"encoded_spend":float(table["encoded_spend"][index]),"expected_return":float(table["expected_return"][index]),"variance":float(table["variance"][index]),"volatility":float(table["volatility"][index]),"sharpe_ratio":float(table["sharpe_ratio"][index]),"return_energy":float(table["return_energy"][index]),"variance_energy":float(table["variance_energy"][index]),"skewness_energy":float(table["skewness_energy"][index]),"kurtosis_energy":float(table["kurtosis_energy"][index]),"budget_energy":float(table["budget_energy"][index]),"hamiltonian_energy":float(table["total_energy"][index])})
+def full_tensor_comparison_records(data,config=None):
+    cfg=SourceHuboConfig(mode="budget_aligned") if config is None else config; table=source_hubo_state_table(data,cfg); feasible=np.flatnonzero(table["admissible"]); financial=int(feasible[np.argmax(table["sharpe_ratio"][feasible])]); mv_energy=table["return_energy"]+table["variance_energy"]; mv=int(feasible[np.argmin(mv_energy[feasible])]); feasible_hubo=int(feasible[np.argmin(table["total_energy"][feasible])]); unrestricted=int(np.argmin(table["total_energy"])); return {"financial_ground_truth":_full_tensor_record(table,financial),"exact_mean_variance":_full_tensor_record(table,mv),"exact_feasible_hubo_ground":_full_tensor_record(table,feasible_hubo),"unrestricted_hamiltonian_ground":_full_tensor_record(table,unrestricted)}
+def comparison_deltas(record,*,exact_ground,financial_ground_truth):
+    record_energy=float(record.get("hamiltonian_energy",record.get("total_energy"))); exact_energy=float(exact_ground.get("hamiltonian_energy",exact_ground.get("total_energy")))
+    if isinstance(record,MutableMapping):record.setdefault("hamiltonian_energy",record_energy);record.setdefault("fully_invested",bool(record.get("minimum_breach_state",False)));record.setdefault("budget_breach",0.0)
+    return {"hamiltonian_gap":record_energy-exact_energy,"sharpe_abs_error":float(abs(record["sharpe_ratio"]-financial_ground_truth["sharpe_ratio"])),"return_difference":float(record["expected_return"]-financial_ground_truth["expected_return"]),"volatility_difference":float(record["volatility"]-financial_ground_truth["volatility"]),"budget_breach_difference":float(record.get("budget_breach",0.0)-financial_ground_truth.get("budget_breach",0.0))}
