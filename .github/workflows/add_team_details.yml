@@ -1,0 +1,53 @@
+name: Add team details
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/add_team_details.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  update-team-section:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Update team section
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('README.md')
+          text = path.read_text()
+          start = '## 10. Team members and contributions'
+          end = '## 11. AI and tools usage'
+          if start not in text or end not in text:
+              raise SystemExit('Team section anchors not found')
+          a = text.index(start)
+          b = text.index(end)
+          replacement = '''## 10. Team members and contributions
+
+### Team: QPhysicists
+
+| Team member | Email | Institution | Country |
+|---|---|---|---|
+| **Anurag Sarkar** | [anuragsarkar315@gmail.com](mailto:anuragsarkar315@gmail.com) | University of the Witwatersrand | South Africa |
+| **Ankit Gill** | [ankit.1.gill@gmail.com](mailto:ankit.1.gill@gmail.com) | Indian Institute of Technology Kanpur | India |
+
+Both team members made **equal or comparable contributions** across the major stages of the work, including the development of the theoretical ideas, formulation of the portfolio objectives and constraints, design of the higher-order extensions, implementation of the classical and quantum optimization workflows, validation strategy, interpretation of results, and overall project development.
+
+The project evolved through repeated discussion, testing and refinement, and both team members were thoroughly involved throughout that process. The ideas and implementations required sustained joint effort, so the work is best represented as a collaborative contribution rather than as a collection of isolated individual tasks.
+
+'''
+          path.write_text(text[:a] + replacement + text[b:])
+          PY
+      - name: Commit README
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git commit -m "Add QPhysicists team details to README"
+          git push origin HEAD:main
