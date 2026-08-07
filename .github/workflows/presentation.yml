@@ -1,4 +1,5 @@
 # Rebuild when presentation source changes; final author names are in build_deck.js.
+# Result slides are appended after the base PptxGenJS deck is generated.
 name: Build presentation deck
 
 on:
