@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560">
+<rect width="1200" height="560" fill="#f7f7f8"/>
+<text x="50" y="55" font-family="Arial" font-size="30" font-weight="700" fill="#202126">Higher-moment HUBO/VQE: financial quality of exact and variational states</text>
+<text x="50" y="88" font-family="Arial" font-size="16" fill="#6B6B72">15-qubit exploratory benchmark; all reported states satisfy the exact USD 10,000 budget.</text>
+
+<text x="70" y="145" font-family="Arial" font-size="20" font-weight="700" fill="#202126">Expected return</text>
+<line x1="85" y1="405" x2="575" y2="405" stroke="#cfcfd5" stroke-width="2"/>
+<rect x="110" y="180" width="82" height="225" rx="6" fill="#315A8A"/>
+<rect x="225" y="316" width="82" height="89" rx="6" fill="#2B7A4B"/>
+<rect x="340" y="316" width="82" height="89" rx="6" fill="#5B2A86"/>
+<rect x="455" y="322" width="82" height="83" rx="6" fill="#E36A36"/>
+<text x="151" y="171" text-anchor="middle" font-family="Arial" font-size="15" font-weight="700" fill="#315A8A">53.41%</text>
+<text x="266" y="307" text-anchor="middle" font-family="Arial" font-size="15" font-weight="700" fill="#2B7A4B">21.08%</text>
+<text x="381" y="307" text-anchor="middle" font-family="Arial" font-size="15" font-weight="700" fill="#5B2A86">21.08%</text>
+<text x="496" y="313" text-anchor="middle" font-family="Arial" font-size="15" font-weight="700" fill="#E36A36">19.75%</text>
+
+<text x="650" y="145" font-family="Arial" font-size="20" font-weight="700" fill="#202126">Sharpe ratio</text>
+<line x1="665" y1="405" x2="1135" y2="405" stroke="#cfcfd5" stroke-width="2"/>
+<rect x="690" y="180" width="82" height="225" rx="6" fill="#315A8A"/>
+<rect x="805" y="254" width="82" height="151" rx="6" fill="#2B7A4B"/>
+<rect x="920" y="254" width="82" height="151" rx="6" fill="#5B2A86"/>
+<rect x="1035" y="264" width="82" height="141" rx="6" fill="#E36A36"/>
+<text x="731" y="171" text-anchor="middle" font-family="Arial" font-size="15" font-weight="700" fill="#315A8A">1.09482</text>
+<text x="846" y="245" text-anchor="middle" font-family="Arial" font-size="15" font-weight="700" fill="#2B7A4B">0.73544</text>
+<text x="961" y="245" text-anchor="middle" font-family="Arial" font-size="15" font-weight="700" fill="#5B2A86">0.73544</text>
+<text x="1076" y="255" text-anchor="middle" font-family="Arial" font-size="15" font-weight="700" fill="#E36A36">0.68444</text>
+
+<text x="151" y="438" text-anchor="middle" font-family="Arial" font-size="13" fill="#202126">Financial GT</text>
+<text x="266" y="438" text-anchor="middle" font-family="Arial" font-size="13" fill="#202126">Exact HUBO</text>
+<text x="381" y="438" text-anchor="middle" font-family="Arial" font-size="13" fill="#202126">H ground</text>
+<text x="496" y="438" text-anchor="middle" font-family="Arial" font-size="13" fill="#202126">Finite-shot VQE</text>
+<text x="731" y="438" text-anchor="middle" font-family="Arial" font-size="13" fill="#202126">Financial GT</text>
+<text x="846" y="438" text-anchor="middle" font-family="Arial" font-size="13" fill="#202126">Exact HUBO</text>
+<text x="961" y="438" text-anchor="middle" font-family="Arial" font-size="13" fill="#202126">H ground</text>
+<text x="1076" y="438" text-anchor="middle" font-family="Arial" font-size="13" fill="#202126">Finite-shot VQE</text>
+
+<rect x="60" y="485" width="1075" height="48" rx="10" fill="#fff5ef" stroke="#efc3ad"/>
+<text x="597" y="507" text-anchor="middle" font-family="Arial" font-size="16" font-weight="700" fill="#7B1E35">Finite-shot VQE remains feasible but does not recover the exact HUBO ground state in this run.</text>
+<text x="597" y="526" text-anchor="middle" font-family="Arial" font-size="14" fill="#6B6B72">This is reported as an exploratory solver-quality result, not a quantum-advantage claim.</text>
+</svg>
