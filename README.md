@@ -255,11 +255,17 @@ This distinction is important to the project: AI-assisted tooling helped acceler
 
 ## 12. Assumptions and limitations
 
-The flagship uses deterministic synthetic/anonymized assumptions defined directly in code and does not rely on restricted Vanguard data. Raw implementation-cost rates are reported separately from the quadratic rebalancing proxy. Quantum finite-shot post-processing only selects among observed hard-feasible portfolios, and any classical fallback is reported explicitly.
+A few points are useful to keep in mind when reading the results.
 
-The 15-qubit five-asset higher-moment example is a stitched scaling demonstration: mixed terms involving both TSLA and NVDA were unavailable in the supplied source combination and are therefore set to zero. The 12-qubit full-tensor case is the cleaner higher-moment benchmark.
+The flagship portfolio model uses **synthetic/anonymized inputs** rather than confidential Vanguard data. This lets us demonstrate the full optimization workflow without relying on restricted information. The numbers should therefore be viewed as a proof of method, not as a real investment recommendation.
 
-See [`docs/ASSUMPTIONS_AND_LIMITATIONS.md`](docs/ASSUMPTIONS_AND_LIMITATIONS.md) for the full claim boundary and recommended next steps.
+For transaction costs, we report the estimated implementation cost separately from the quadratic rebalancing term used inside the optimizer. This makes it easier to see both the model's preference for lower turnover and the resulting cost estimate.
+
+The quantum runs are also interpreted carefully. With finite-shot QAOA or VQE, we report what the quantum solver actually observed. When a classical fallback is needed, it is stated explicitly rather than being presented as a quantum result.
+
+The **12-qubit higher-moment model** is our cleanest higher-order example because it uses the complete available co-skewness and co-kurtosis tensors. The **15-qubit, five-asset model** is mainly a scaling demonstration. Its source data did not contain every mixed higher-moment term involving both TSLA and NVDA, so those missing terms are set to zero. It is still useful for studying how the workflow scales, but the 12-qubit case is the better reference for interpreting the higher-moment structure.
+
+More detailed technical assumptions and possible next steps are collected in [`docs/ASSUMPTIONS_AND_LIMITATIONS.md`](docs/ASSUMPTIONS_AND_LIMITATIONS.md).
 
 ## 13. Repository guide
 
