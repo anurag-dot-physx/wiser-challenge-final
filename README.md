@@ -2,6 +2,14 @@
 
 **WISER x Vanguard - Quantum for Finance Challenge 2026**
 
+## Team: QPhysicists
+
+| Team member | Email | Institution | Country |
+|---|---|---|---|
+| **Anurag Sarkar** | [anuragsarkar315@gmail.com](mailto:anuragsarkar315@gmail.com) | University of the Witwatersrand | South Africa |
+| **Ankit Gill** | [ankit.1.gill@gmail.com](mailto:ankit.1.gill@gmail.com) | Indian Institute of Technology Kanpur | India |
+
+
 [![Portfolio co-pilot tests](https://github.com/anurag-dot-physx/wiser-challenge-final/actions/workflows/tests.yml/badge.svg)](https://github.com/anurag-dot-physx/wiser-challenge-final/actions/workflows/tests.yml)
 
 This project explores how classical portfolio optimization and quantum-compatible optimization can work together in a practical multi-asset portfolio construction workflow. Our goal was not simply to build a quantum model in isolation, but to develop a complete pipeline that starts from an interpretable portfolio problem, validates every important result classically, and then extends the same problem toward richer higher-order objectives and variational quantum optimization.
@@ -263,13 +271,11 @@ python src/run_vanguard_copilot.py --profile Balanced --quantum --qaoa-p 1 --qao
 
 The GitHub Actions workflow performs the same installation from a fresh checkout, compiles the source, runs the regression suite and executes non-interactive smoke checks for the flagship audit and Balanced portfolio report.
 
-## 10. Team members and contributions
+## 10. Team contributions
 
-**Anurag Sarkar** and **Ankit Gill** are the two team members who developed this project.
+Both members of **QPhysicists** made equal or comparable contributions across the major stages of the work, including theoretical development, portfolio formulation and constraints, higher-order extensions, classical and quantum optimization workflows, validation, interpretation of results, and overall implementation.
 
-Both team members made **equal or comparable contributions** across the major stages of the work, including the development of the theoretical ideas, formulation of the portfolio objectives and constraints, design of the higher-order extensions, implementation of the classical and quantum optimization workflows, validation strategy, interpretation of results, and overall project development.
-
-The project evolved through repeated discussion, testing and refinement, and both team members were thoroughly involved throughout that process. The ideas and implementations required sustained joint effort, so the work is best represented as a collaborative contribution rather than as a collection of isolated individual tasks.
+The project evolved through repeated discussion, testing and refinement, and both team members were thoroughly involved throughout that process.
 
 ## 11. AI and tools usage
 
