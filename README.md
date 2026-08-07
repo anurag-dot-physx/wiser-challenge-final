@@ -45,17 +45,11 @@ The project answers two separate questions:
 
 ## 2. Flagship mathematical model
 
-For portfolio weights $w$, the production objective is
+For portfolio weights **w**, the production objective is
 
-$$
-J(w) = -\lambda_\mu \mu^T w
-+ \lambda_r w^T \Sigma w
-- \lambda_y y^T w
-+ \lambda_T (w-w_0)^T R (w-w_0)
-+ \lambda_s \frac{1}{S}\sum_s (\ell_s^T w)^2.
-$$
+> **J(w) = −λμ μᵀw + λr wᵀΣw − λy yᵀw + λT (w − w₀)ᵀR(w − w₀) + λs (1/S) Σₛ(ℓₛᵀw)²**
 
-The five terms represent expected-return reward, variance risk, income reward, cost-aware rebalancing, and scenario/drawdown control. $R$ is positive semidefinite, so the total Hessian remains positive semidefinite. The implementation separately reports raw transaction-cost estimates and one-way turnover.
+The five terms represent expected-return reward, variance risk, income reward, cost-aware rebalancing, and scenario/drawdown control. **R** is positive semidefinite, so the total Hessian remains positive semidefinite. The implementation separately reports raw transaction-cost estimates and one-way turnover.
 
 Hard guardrails enforce:
 
@@ -71,9 +65,7 @@ The dashboard exposes **Growth, Balanced, and Defensive** profiles plus tunable 
 
 The continuous problem is solved as a constrained convex quadratic program. The production discrete benchmark uses 10% increments and exhaustively evaluates
 
-$$
-\binom{17}{7}=19{,}448
-$$
+> **C(17, 7) = 19,448**
 
 fully invested portfolios.
 
@@ -97,11 +89,9 @@ python src/audit_quadratic_model.py
 
 A five-sleeve representative universe is encoded on a 12.5% grid with bounded binary allocation variables. Budget and nonredundant group inequalities are converted into exact quadratic equalities using binary slack variables:
 
-$$
-E(x,s)=J(Ax)+P\sum_k\left(c_k^T x+d_k^T s_k-t_k\right)^2.
-$$
+> **E(x, s) = J(Ax) + P Σₖ(cₖᵀx + dₖᵀsₖ − tₖ)²**
 
-The penalty $P$ is automatically chosen above the complete financial-energy range. Exhaustive auditing verifies that the constraint-consistent QUBO state space corresponds to hard-feasible reduced portfolios and that every QUBO ground portfolio matches the exact reduced financial optimum.
+The penalty **P** is automatically chosen above the complete financial-energy range. Exhaustive auditing verifies that the constraint-consistent QUBO state space corresponds to hard-feasible reduced portfolios and that every QUBO ground portfolio matches the exact reduced financial optimum.
 
 QAOA is compared **only with this reduced exact reference**, not with the eight-asset production solution.
 
@@ -127,13 +117,7 @@ Additional pages cover the higher-moment extension, automatic generation/VQE che
 
 The exploratory extension adds complete co-skewness and co-kurtosis tensors:
 
-$$
-E(m) = -\lambda_\mu \mu^T m
-+ \lambda_\Sigma m^T \Sigma m
-- \lambda_S \sum_{ijk} S_{ijk}m_i m_j m_k
-+ \lambda_K \sum_{ijkl} K_{ijkl}m_i m_j m_k m_l
-+ \lambda_B\left(\sum_i m_i-8\right)^2.
-$$
+> **E(m) = −λμ μᵀm + λΣ mᵀΣm − λS Σᵢⱼₖ Sᵢⱼₖ mᵢmⱼmₖ + λK Σᵢⱼₖₗ Kᵢⱼₖₗ mᵢmⱼmₖmₗ + λB(Σᵢmᵢ − 8)²**
 
 Three bits per asset encode integer allocation units. In the budget-aligned model, one unit is **USD 1,250**, so eight units exactly represent the **USD 10,000** target budget.
 
@@ -147,7 +131,7 @@ One CMA trajectory is snapshotted at generation checkpoints such as
 5, 10, 20, 30, 50, 75, 100
 ```
 
-Five sector universes are used for validation/model selection; a separate five are held out until $G^*$ and the coefficients are fixed. The dashboard can select highest Sharpe, highest return, lowest volatility, or the fastest near-optimal Sharpe checkpoint.
+Five sector universes are used for validation/model selection; a separate five are held out until **G*** and the coefficients are fixed. The dashboard can select highest Sharpe, highest return, lowest volatility, or the fastest near-optimal Sharpe checkpoint.
 
 ### Efficient final-VQE selection
 
@@ -167,17 +151,13 @@ python src/fetch_sector_data.py
 
 ## 7. Exact HUBO to QUBO quadratization
 
-The full cubic/quartic pseudo-Boolean Hamiltonian can be reduced exactly to a QUBO with reusable product ancillas. For each identity $y=ab$, the Rosenberg penalty is
+The full cubic/quartic pseudo-Boolean Hamiltonian can be reduced exactly to a QUBO with reusable product ancillas. For each identity **y = ab**, the Rosenberg penalty is
 
-$$
-P\left(ab-2ay-2by+3y\right).
-$$
+> **P(ab − 2ay − 2by + 3y)**
 
-$P$ is selected strictly above a rigorous range bound for the reduced unpenalized objective. The implementation verifies the state-by-state condition
+**P** is selected strictly above a rigorous range bound for the reduced unpenalized objective. The implementation verifies the state-by-state condition
 
-$$
-H_{\mathrm{HUBO}}(x)=H_{\mathrm{QUBO}}\left(x,y(x)\right)
-$$
+> **H_HUBO(x) = H_QUBO(x, y(x))**
 
 for every original encoded state and confirms that the lifted QUBO ground portfolio matches the original HUBO ground portfolio.
 
