@@ -4,11 +4,11 @@
 
 [![Portfolio co-pilot tests](https://github.com/anurag-dot-physx/wiser-challenge-final/actions/workflows/tests.yml/badge.svg)](https://github.com/anurag-dot-physx/wiser-challenge-final/actions/workflows/tests.yml)
 
-This repository contains a submission-oriented prototype for **Multi-Asset Portfolio Construction**: an audited classical portfolio optimizer, an exact reduced QUBO/QAOA benchmark, and an exploratory higher-moment HUBO/VQE extension.
+This repository contains a submission-oriented prototype for **Multi-Asset Portfolio Construction**: an audited classical portfolio optimizer, an exact reduced QUBO/QAOA benchmark, and a higher-moment HUBO/VQE research extension.
 
 > **Primary result:** the flagship eight-asset model is solved classically and validated against all original hard guardrails. The complete 10% grid of **19,448** fully invested portfolios is enumerated exactly. For all three canonical investor profiles, the continuous objective is convex, the exact-grid solution has **zero hard-constraint breaches**, and the reduced QUBO ground portfolio matches its own exact reduced classical optimum.
 
-The quantum components are deliberately reported as separate benchmarks. **No quantum-advantage claim is made, and this project is not investment advice.**
+The project is designed as a genuinely hybrid classical-quantum workflow: classical optimization provides strong, interpretable references and learns effective Hamiltonian parameters, while quantum-compatible formulations explore richer discrete optimization landscapes. **No quantum-advantage claim is made, and this project is not investment advice.**
 
 ## Presentation
 
@@ -35,13 +35,34 @@ synthetic/anonymized assumptions + investor goals
   reduced exact-constraint QUBO -> QAOA benchmark
                 |
                 v
- optional higher-moment HUBO/VQE research extension
+ higher-moment HUBO + classical learning -> VQE
+                |
+                v
+       exact HUBO -> QUBO quadratization
 ```
 
-The project answers two separate questions:
+The project answers two complementary questions:
 
 1. **Can the investment problem be formulated, solved and audited cleanly?** - addressed by the eight-asset quadratic production model.
-2. **How can quantum-compatible encodings and variational solvers be tested against known exact answers?** - addressed by the reduced QUBO/QAOA and higher-moment HUBO/VQE benchmarks.
+2. **Can the portfolio objective be enriched beyond quadratic mean-variance structure while combining classical learning with quantum optimization?** - addressed by the reduced QUBO/QAOA and higher-moment HUBO/VQE workflows.
+
+### Why we selected this approach
+
+We selected this layered hybrid architecture because each part contributes a distinct strength to the overall portfolio-construction problem.
+
+The **quadratic portfolio model** gives us a transparent and highly auditable foundation. Expected return, variance risk, income, implementation cost and scenario sensitivity all appear explicitly in the objective, while hard investment guardrails remain easy to interpret and verify. Convexity provides a strong continuous reference, and complete enumeration of the 10% allocation grid gives an exact discrete benchmark. This makes the flagship model useful not only as an optimizer, but also as a reliable validation layer for everything built on top of it.
+
+The **reduced exact-constraint QUBO** then translates the same optimization philosophy into a native binary form. The reduced universe is small enough that its complete state space can be checked exactly, allowing QAOA to be compared with a known optimum rather than an unknown reference. This creates a controlled setting in which the behavior of a quantum optimizer can be studied without giving up financial interpretability or constraint auditing.
+
+We were especially motivated to include **higher-moment corrections** because co-skewness and co-kurtosis introduce interactions that do not exist in a purely quadratic mean-variance objective. Although higher-order models naturally increase hardware and optimization complexity, they also **substantially enrich the energy landscape** of the portfolio problem. This richer landscape can represent asymmetric and higher-order cross-asset structure that a quadratic model cannot express directly, and therefore provides a natural setting in which quantum optimization may become particularly interesting.
+
+A second major motivation is the **synchronization of classical learning and quantum optimization**. In one of our main higher-moment workflows, the Hamiltonian coefficients are first calibrated classically using a vectorized CMA-ES optimization over training and validation data. Once those coefficients are fixed, the resulting Hamiltonian is passed to VQE for quantum optimization. The classical stage therefore learns an effective objective, while the quantum stage focuses on exploring the resulting combinatorial energy landscape. This classical-to-quantum handoff closely reflects the hybrid philosophy that motivated the WISER program and was one of the main reasons we selected this specific architecture for the higher-moment extension.
+
+The project also keeps **exact references wherever they are computationally available**. We calculate exact financial ground truths, exact feasible HUBO ground states and exact lifted HUBO-to-QUBO energy equivalence. This allows us to separate model quality, Hamiltonian calibration and quantum-solver performance instead of mixing them into a single metric. As a result, the project combines expressiveness with unusually strong internal validation.
+
+Finally, the exact **HUBO-to-QUBO quadratization** provides a bridge between the richer higher-order model and standard quadratic binary hardware formulations. It shows that the added higher-order structure does not have to remain isolated from QUBO-based quantum methods: it can be reduced exactly using ancilla variables and rigorously chosen penalties while preserving the relevant ground-state structure.
+
+Taken together, the final approach lets us move progressively from an interpretable classical portfolio model, to an exactly auditable binary quantum benchmark, to a richer higher-moment Hamiltonian in which classical parameter learning and quantum state optimization work together. That progression is central to the project: rather than treating classical and quantum optimization as competing alternatives, we use them as complementary components of one portfolio-construction workflow.
 
 ## 2. Flagship mathematical model
 
@@ -126,7 +147,7 @@ Additional pages cover the higher-moment extension, automatic generation/VQE che
 
 ## 6. Higher-moment HUBO/VQE research extension
 
-The exploratory extension adds complete co-skewness and co-kurtosis tensors:
+The higher-moment extension adds complete co-skewness and co-kurtosis tensors, giving the Hamiltonian access to asymmetric and higher-order cross-asset interactions beyond a quadratic mean-variance description:
 
 $$
 E(m)=
@@ -139,7 +160,7 @@ $$
 
 Three bits per asset encode integer allocation units. In the budget-aligned model, one unit is **USD 1,250**, so eight units exactly represent the **USD 10,000** target budget.
 
-The five Hamiltonian coefficients are calibrated with a vectorized **CMA-ES** outer loop. State features are cached once and whole CMA populations are evaluated with matrix multiplication. VQE is intentionally kept out of the coefficient-training loop.
+The five Hamiltonian coefficients are calibrated with a vectorized **CMA-ES** outer loop. State features are cached once and whole CMA populations are evaluated with matrix multiplication, making the classical learning stage efficient enough to explore many coefficient candidates. VQE is then applied only after the Hamiltonian has been selected, giving a clean separation between **learning the objective** and **quantum optimization of the objective**.
 
 ### Efficient training-depth selection
 
@@ -149,7 +170,7 @@ One CMA trajectory is snapshotted at generation checkpoints such as
 5, 10, 20, 30, 50, 75, 100
 ```
 
-Five sector universes are used for validation/model selection; a separate five are held out until $G^\star$ and the coefficients are fixed. The dashboard can select highest Sharpe, highest return, lowest volatility, or the fastest near-optimal Sharpe checkpoint.
+Five sector universes are used for validation/model selection; a separate five are held out until $G^\star$ and the coefficients are fixed. This creates a genuine model-selection pipeline rather than selecting hyperparameters on the final evaluation set. The dashboard can select highest Sharpe, highest return, lowest volatility, or the fastest near-optimal Sharpe checkpoint.
 
 ### Efficient final-VQE selection
 
@@ -159,7 +180,7 @@ After the Hamiltonian is fixed, VQE optimizer budgets can be swept over
 20, 40, 60, 80, 120, 160, 200
 ```
 
-The preferred checkpoint is the smallest budget that recovers the exact feasible HUBO ground state without fallback; otherwise the lowest exact Hamiltonian optimality gap is used.
+The preferred checkpoint is the smallest budget that recovers the exact feasible HUBO ground state without fallback; otherwise the lowest exact Hamiltonian optimality gap is used. This makes quantum runtime itself a tunable resource and lets us identify the smallest useful optimization budget instead of assuming that more iterations are always better.
 
 Generate the optional sector data with:
 
@@ -181,7 +202,7 @@ $$
 H_{\mathrm{HUBO}}(x)=H_{\mathrm{QUBO}}\left(x,y(x)\right).
 $$
 
-for every original encoded state and confirms that the lifted QUBO ground portfolio matches the original HUBO ground portfolio.
+for every original encoded state and confirms that the lifted QUBO ground portfolio matches the original HUBO ground portfolio. The quadratization therefore turns the richer higher-order objective into a standard QUBO while preserving exact energies on the consistent ancilla subspace and preserving the ground-state solution under the sufficient penalty construction.
 
 Run the standalone audit/exporter with:
 
