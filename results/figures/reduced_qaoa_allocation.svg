@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560">
+<rect width="1200" height="560" fill="#f7f7f8"/>
+<text x="50" y="55" font-family="Arial" font-size="30" font-weight="700" fill="#202126">Reduced QUBO/QAOA benchmark: exact portfolio recovery</text>
+<text x="50" y="88" font-family="Arial" font-size="16" fill="#6B6B72">Balanced reduced model: 15 total variables (9 allocation + 6 slack), 66 feasible portfolios.</text>
+<line x1="80" y1="420" x2="1125" y2="420" stroke="#cfcfd5" stroke-width="2"/>
+<line x1="80" y1="170" x2="80" y2="420" stroke="#cfcfd5" stroke-width="2"/>
+<text x="60" y="182" font-family="Arial" font-size="14" fill="#6B6B72">40%</text>
+<text x="60" y="245" font-family="Arial" font-size="14" fill="#6B6B72">30%</text>
+<text x="60" y="308" font-family="Arial" font-size="14" fill="#6B6B72">20%</text>
+<text x="60" y="371" font-family="Arial" font-size="14" fill="#6B6B72">10%</text>
+
+<rect x="135" y="184" width="58" height="236" fill="#78B8E8"/>
+<rect x="193" y="184" width="58" height="236" fill="#315A8A"/>
+<text x="164" y="174" text-anchor="middle" font-family="Arial" font-size="15" font-weight="700" fill="#315A8A">37.5%</text>
+<text x="222" y="174" text-anchor="middle" font-family="Arial" font-size="15" font-weight="700" fill="#315A8A">37.5%</text>
+
+<rect x="345" y="341" width="58" height="79" fill="#78B8E8"/>
+<rect x="403" y="341" width="58" height="79" fill="#315A8A"/>
+<text x="374" y="331" text-anchor="middle" font-family="Arial" font-size="15" font-weight="700" fill="#315A8A">12.5%</text>
+<text x="432" y="331" text-anchor="middle" font-family="Arial" font-size="15" font-weight="700" fill="#315A8A">12.5%</text>
+
+<rect x="555" y="184" width="58" height="236" fill="#78B8E8"/>
+<rect x="613" y="184" width="58" height="236" fill="#315A8A"/>
+<text x="584" y="174" text-anchor="middle" font-family="Arial" font-size="15" font-weight="700" fill="#315A8A">37.5%</text>
+<text x="642" y="174" text-anchor="middle" font-family="Arial" font-size="15" font-weight="700" fill="#315A8A">37.5%</text>
+
+<rect x="765" y="341" width="58" height="79" fill="#78B8E8"/>
+<rect x="823" y="341" width="58" height="79" fill="#315A8A"/>
+<text x="794" y="331" text-anchor="middle" font-family="Arial" font-size="15" font-weight="700" fill="#315A8A">12.5%</text>
+<text x="852" y="331" text-anchor="middle" font-family="Arial" font-size="15" font-weight="700" fill="#315A8A">12.5%</text>
+
+<text x="193" y="455" text-anchor="middle" font-family="Arial" font-size="15" fill="#202126">US Equity</text>
+<text x="403" y="455" text-anchor="middle" font-family="Arial" font-size="15" fill="#202126">Intl Equity</text>
+<text x="613" y="455" text-anchor="middle" font-family="Arial" font-size="15" fill="#202126">Govt Bonds</text>
+<text x="823" y="455" text-anchor="middle" font-family="Arial" font-size="15" fill="#202126">Commodities</text>
+<text x="1030" y="455" text-anchor="middle" font-family="Arial" font-size="15" fill="#202126">Cash</text>
+
+<rect x="870" y="150" width="255" height="135" rx="12" fill="#ffffff" stroke="#d9d9de"/>
+<rect x="895" y="180" width="24" height="24" fill="#78B8E8"/><text x="930" y="198" font-family="Arial" font-size="16" fill="#202126">Reduced exact</text>
+<rect x="895" y="220" width="24" height="24" fill="#315A8A"/><text x="930" y="238" font-family="Arial" font-size="16" fill="#202126">QAOA / fallback</text>
+
+<rect x="60" y="495" width="1065" height="42" rx="10" fill="#eef6f1" stroke="#b7d7c4"/>
+<text x="592" y="522" text-anchor="middle" font-family="Arial" font-size="17" font-weight="700" fill="#2B7A4B">Exact audit result shown: recovered allocation matches the reduced exact optimum; QUBO ground audited = True</text>
+</svg>
