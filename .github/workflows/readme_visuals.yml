@@ -1,3 +1,4 @@
+# Keep README visual evidence synchronized with the generated result figures.
 name: Add README result visuals
 
 on:
