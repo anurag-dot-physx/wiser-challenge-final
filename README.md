@@ -275,7 +275,25 @@ docs/ASSUMPTIONS_AND_LIMITATIONS.md
 presentation/                PDF and PowerPoint submission deck
 ```
 
-## 14. Key documents
+## 14. References and related work
+
+The project draws on ideas from modern portfolio theory, binary optimization, variational quantum algorithms and higher-order portfolio modeling. The following references were particularly relevant to the formulation and methods used here:
+
+1. **H. Markowitz, “Portfolio Selection,” The Journal of Finance 7, 77–91 (1952).** The classical mean–variance foundation underlying the quadratic portfolio model. [DOI: 10.1111/j.1540-6261.1952.tb01525.x](https://doi.org/10.1111/j.1540-6261.1952.tb01525.x)
+
+2. **G. Kochenberger, J.-K. Hao, F. Glover, M. Lewis, Z. Lü, H. Wang, and Y. Wang, “The unconstrained binary quadratic programming problem: a survey,” Journal of Combinatorial Optimization 28, 58–81 (2014).** A broad reference for QUBO/UBQP modeling and solution methods. [Springer](https://link.springer.com/article/10.1007/s10878-014-9734-0)
+
+3. **V. Uotila, J. Ripatti, and B. Zhao, “Higher-Order Portfolio Optimization with Quantum Approximate Optimization Algorithm,” 2025 IEEE International Conference on Quantum Computing and Engineering (QCE), pp. 1–12 (2025).** Especially relevant to our higher-moment extension: the work formulates portfolio optimization with skewness and kurtosis as a higher-order unconstrained binary optimization problem. [IEEE Xplore](https://ieeexplore.ieee.org/document/11249852/) · [DOI: 10.1109/QCE65121.2025.00244](https://doi.org/10.1109/QCE65121.2025.00244)
+
+4. **E. Farhi, J. Goldstone, and S. Gutmann, “A Quantum Approximate Optimization Algorithm” (2014).** The foundational QAOA proposal used as the conceptual basis for our reduced QUBO quantum benchmark. [arXiv:1411.4028](https://arxiv.org/abs/1411.4028)
+
+5. **A. Peruzzo, J. McClean, P. Shadbolt, M.-H. Yung, X.-Q. Zhou, P. J. Love, A. Aspuru-Guzik, and J. L. O’Brien, “A variational eigenvalue solver on a photonic quantum processor,” Nature Communications 5, 4213 (2014).** The foundational VQE paper underlying the variational solver used in the higher-moment workflow. [DOI: 10.1038/ncomms5213](https://doi.org/10.1038/ncomms5213)
+
+6. **A. Auger and N. Hansen, “CMA-ES: Evolution Strategies and Covariance Matrix Adaptation,” GECCO 2011 Companion, pp. 991–1010 (2011).** A useful methodological reference for the CMA-ES calibration stage used to learn the higher-moment Hamiltonian coefficients. [DOI: 10.1145/2001858.2002123](https://doi.org/10.1145/2001858.2002123)
+
+These references are intended to situate the project within the relevant literature rather than imply that the implementation reproduces any one paper directly. Our contribution is the integrated workflow connecting an auditable constrained portfolio model, exact binary benchmarks, higher-moment Hamiltonians, classical coefficient learning, variational quantum optimization, and exact HUBO-to-QUBO reduction.
+
+## 15. Key documents
 
 - [Presentation deck - PDF](presentation/WISER_Vanguard_Quantum_Portfolio_Challenge_2026.pdf)
 - [Presentation deck - PowerPoint](presentation/WISER_Vanguard_Quantum_Portfolio_Challenge_2026.pptx)
